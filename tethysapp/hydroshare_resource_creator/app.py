@@ -16,39 +16,25 @@ class HydroshareResourceCreator(TethysAppBase):
     enable_feedback = False
     feedback_emails = []
 
-        
     def url_maps(self):
         """
-        Add controllers
+        Add controllers for app.
         """
-        UrlMap = url_map_maker(self.root_url)
 
-        url_maps = (UrlMap(name='home',
-                           url='hydroshare-resource-creator',
-                           controller='hydroshare_resource_creator.controllers.home'),
-                    UrlMap(name='chart_data',
-                           url='chart_data/{res_id}',
-                           controller='hydroshare_resource_creator.controllers.chart_data'),
-                    UrlMap(name='write_file',
-                           url='write_file',
-                           controller='hydroshare_resource_creator.controllers.write_file'),
-                    UrlMap(name='response',
-                           url='response',
-                           controller='hydroshare_resource_creator.controllers.response'),
-                    UrlMap(name='create_layer',
-                           url='create_layer/{fun_type}/{res_id}/{res_type}',
-                           controller='hydroshare_resource_creator.controllers.create_layer'),
-                      UrlMap(name='temp_waterml',
-                           url='temp_waterml/{id}',
-                           controller='hydroshare_resource_creator.controllers.temp_waterml'),
+        url_map = url_map_maker(self.root_url)
 
-                    UrlMap(name='login_callback',
-                           url='login-callback',
-                           controller='hydroshare_resource_creator.controllers.login_callback'),
-                    UrlMap(name='login_test',
-                           url='login-test',
-                           controller='hydroshare_resource_creator.controllers.login_test'),
-
-        )
+        url_maps = (url_map(name='home',
+                            url='hydroshare-resource-creator',
+                            controller='hydroshare_resource_creator.controllers.home'),
+                    url_map(name='create_resource',
+                            url='hydroshare-resource-creator/create-resource',
+                            controller='hydroshare_resource_creator.controllers_ajax.ajax_create_resource'),
+                    url_map(name='login_callback',
+                            url='hydroshare-resource-creator/login-callback',
+                            controller='hydroshare_resource_creator.controllers.login_callback'),
+                    url_map(name='login_test',
+                            url='hydroshare-resource-creator/login-test',
+                            controller='hydroshare_resource_creator.controllers_ajax.login_test'),
+                    )
 
         return url_maps
