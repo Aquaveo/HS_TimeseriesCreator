@@ -21,14 +21,19 @@ import urllib2
 import urllib
 import json
 
+from tethys_sdk.routing import controller
+
 @login_required()
+@controller
 def temp_waterml(request, id):
     base_path = utilities.get_workspace() + "/id"
     file_path = base_path + "/" + id
     response = HttpResponse(FileWrapper(open(file_path)), content_type='application/xml')
     return response
+
 # @login_required()
 @csrf_exempt
+@controller
 def home(request):
     ids=[]
     meta =[]
@@ -44,6 +49,7 @@ def home(request):
         login1 = 'True'
     else:
         login1 ='False'
+        
     print request.body
 
     body = request.body
@@ -99,8 +105,10 @@ def home(request):
                'login1':login1
                }
     return render(request, 'hydroshare_resource_creator/home.html', context)
+
 # @login_required()
 @csrf_exempt
+@controller
 def chart_data(request):
     data_for_chart={}
     # serviceurl = request.POST.get('serviceurl')
@@ -186,7 +194,9 @@ def connect_wsdl_url(wsdl_url):
     except:
         raise Exception("Unexpected error")
     return client
+
 @login_required()
+@controller
 def write_file(request):
     sucess = {"File uploaded":"sucess"}
     metadata = []
@@ -219,6 +229,7 @@ def write_file(request):
     # resource_id = hs.createResource(rtype, title, resource_file=fpath, keywords=keywords, abstract=abstract)
     # os.remove(file_temp_name)
     return JsonResponse(sucess)
+
 def response(request):
     service_url = 'http://hydroportal.cuahsi.org/nwisdv/cuahsi_1_1.asmx?WSDL'
     # service_url = 'http://hiscentral.cuahsi.org/webservices/hiscentral.asmx?WSDL'
@@ -253,7 +264,9 @@ def response(request):
     # response = HttpResponse(FileWrapper(open(file_path)), content_type='application/xml')
     # return response1
     return service_url
+
 @ensure_csrf_cookie
+@controller
 # @login_required()
 def create_layer(request,src):
     # res_id = request.POST.get('checked_ids')
@@ -361,6 +374,7 @@ def create_layer(request,src):
 
     #upload to hydroshare stuff
     return JsonResponse({'Request':resource_id})
+
 def trim(string_dic):
     string_dic=string_dic.strip('[')
     string_dic=string_dic.strip(']')
@@ -368,8 +382,10 @@ def trim(string_dic):
     string_dic = string_dic.replace('"','')
     string_dic = string_dic.split(',' )
     return string_dic
+
 @csrf_exempt
 @never_cache
+@controller
 def test(request):
     import json
     request_url = request.META['QUERY_STRING']

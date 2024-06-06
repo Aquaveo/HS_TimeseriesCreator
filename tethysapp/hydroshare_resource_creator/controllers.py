@@ -3,6 +3,7 @@ from django.views.decorators.csrf import csrf_exempt
 from django.views.decorators.cache import never_cache
 from django.views.decorators.csrf import ensure_csrf_cookie
 from tethys_apps.base import TethysWorkspace
+from tethys_sdk.routing import controller
 import json
 import uuid
 import requests
@@ -10,6 +11,7 @@ from .utilities import get_user_workspace, process_form_data
 
 
 @csrf_exempt
+@controller(name='home')
 def home(request):
     """
     Controller for app home page.
@@ -80,6 +82,7 @@ def home(request):
 
 @csrf_exempt
 @never_cache
+@controller(name='login_callback')
 def login_callback(request):
     """
     Controller for login_callback. Checks if the user is logged in.

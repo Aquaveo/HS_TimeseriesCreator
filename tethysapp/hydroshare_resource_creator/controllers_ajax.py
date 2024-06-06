@@ -2,6 +2,7 @@ from django.http import JsonResponse
 from django.views.decorators.csrf import csrf_exempt
 from django.views.decorators.csrf import ensure_csrf_cookie
 from tethys_apps.base import TethysWorkspace
+from tethys_sdk.routing import controller
 import traceback
 import json
 import shutil
@@ -13,6 +14,7 @@ from .utilities import get_user_workspace, create_ts_resource, create_refts_reso
 logger = getLogger('django')
 
 @csrf_exempt
+@controller(name='login_test')
 def login_test(request):
     """
     Ajax controller for login_test. Tests user login.
@@ -67,6 +69,7 @@ def login_test(request):
 
 
 @csrf_exempt
+@controller(name='create_resource', url='hydroshare-resource-creator/create-resource')
 def ajax_create_resource(request):
     """
     Ajax controller for create_layer.

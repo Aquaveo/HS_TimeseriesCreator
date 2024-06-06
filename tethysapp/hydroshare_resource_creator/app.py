@@ -7,7 +7,7 @@ class HydroshareResourceCreator(TethysAppBase):
     """
 
     name = 'HydroShare Resource Creator'
-    index = 'hydroshare_resource_creator:home'
+    index = 'home'
     icon = 'hydroshare_resource_creator/images/tool.svg'
     package = 'hydroshare_resource_creator'
     root_url = 'hydroshare-resource-creator'
@@ -16,25 +16,27 @@ class HydroshareResourceCreator(TethysAppBase):
     enable_feedback = False
     feedback_emails = []
 
-    def url_maps(self):
-        """
-        Add controllers for app.
-        """
+    controller_modules = ['controllers', 'controllers_ajax']
 
-        url_map = url_map_maker(self.root_url)
+#     def url_maps(self):
+#         """
+#         Add controllers for app.
+#         """
 
-        url_maps = (url_map(name='home',
-                            url='hydroshare-resource-creator',
-                            controller='hydroshare_resource_creator.controllers.home'),
-                    url_map(name='create_resource',
-                            url='hydroshare-resource-creator/create-resource',
-                            controller='hydroshare_resource_creator.controllers_ajax.ajax_create_resource'),
-                    url_map(name='login_callback',
-                            url='hydroshare-resource-creator/login-callback',
-                            controller='hydroshare_resource_creator.controllers.login_callback'),
-                    url_map(name='login_test',
-                            url='hydroshare-resource-creator/login-test',
-                            controller='hydroshare_resource_creator.controllers_ajax.login_test'),
-                    )
+#         url_map = url_map_maker(self.root_url)
 
-        return url_maps
+#         url_maps = (url_map(name='home',
+#                             url='hydroshare-resource-creator',
+#                             controller='hydroshare_resource_creator.controllers.home'),
+#                     url_map(name='create_resource',
+#                             url='hydroshare-resource-creator/create-resource',
+#                             controller='hydroshare_resource_creator.controllers_ajax.ajax_create_resource'),
+#                     url_map(name='login_callback',
+#                             url='hydroshare-resource-creator/login-callback',
+#                             controller='hydroshare_resource_creator.controllers.login_callback'),
+#                     url_map(name='login_test',
+#                             url='hydroshare-resource-creator/login-test',
+#                             controller='hydroshare_resource_creator.controllers_ajax.login_test'),
+#                     )
+
+#         return url_maps
