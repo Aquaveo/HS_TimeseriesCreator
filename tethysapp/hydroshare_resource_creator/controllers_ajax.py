@@ -32,7 +32,7 @@ def login_test(request):
         'results': {}
     }
 
-    if request.user.is_authenticated():
+    if request.user.is_authenticated:
         data_url = request.POST.get('dataUrl')
         action_request = request.POST.get('actionRequest')
         hs = get_o_auth_hs(request)
