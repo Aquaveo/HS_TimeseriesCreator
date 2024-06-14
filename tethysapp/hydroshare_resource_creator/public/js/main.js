@@ -521,7 +521,7 @@ ajaxLoginTest = function (data){
                 }
                 if (data.dataUrl.includes("8000")) {
                     $modalLoginDialog.modal('show')
-                    $('#login-link').attr("onClick", "window.open('/oauth2/login/hydroshare_beta/?next=/apps/hydroshare-resource-creator/login-callback/', 'windowName', 'width=1000, height=700, left=24, top=24, scrollbars, resizable')")
+                    $('#login-link').attr("onClick", "window.open('/oauth2/login/hydroshare/?next=/apps/hydroshare-resource-creator/login-callback/', 'windowName', 'width=1000, height=700, left=24, top=24, scrollbars, resizable')")
                     //window.open("/oauth2/login/hydroshare_beta/?next=/apps/hydroshare-resource-creator/login-callback/", 'windowName', 'width=1000, height=700, left=24, top=24, scrollbars, resizable');
                 }
             }

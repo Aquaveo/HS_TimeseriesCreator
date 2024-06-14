@@ -101,7 +101,7 @@ def login_callback(request):
 
     context = {}
 
-    if request.user.is_authenticated():
+    if request.user.is_authenticated:
         context["login"] = "yes"
     else:
         context["login"] = "no"

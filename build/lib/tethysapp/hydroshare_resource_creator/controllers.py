@@ -45,7 +45,7 @@ def home(request):
     data = request.META['QUERY_STRING']
     data = data.encode(encoding ='UTF-8')
     base_path = utilities.get_workspace() + "/id/timeseriesLayerResource.json"
-    if request.user.is_authenticated():
+    if request.user.is_authenticated:
         login1 = 'True'
     else:
         login1 ='False'
@@ -175,6 +175,7 @@ def getOAuthHS(request):
     hs_instance_name = "www"
     client_id = getattr(settings, "SOCIAL_AUTH_HYDROSHARE_KEY", None)
     client_secret = getattr(settings, "SOCIAL_AUTH_HYDROSHARE_SECRET", None)
+
     # this line will throw out from django.core.exceptions.ObjectDoesNotExist if current user is not signed in via HydroShare OAuth
     token = request.user.social_auth.get(provider='hydroshare').extra_data['token_dict']
     hs_hostname = "{0}.hydroshare.org".format(hs_instance_name)
@@ -428,17 +429,19 @@ def test(request):
     context ={"result": json.dumps(result)
                }
     return render(request, 'hydroshare_resource_creator/test.html', context)
+
+@controller(url='login-callback')
 def login_callback(request):
 
     context = {}
-    if request.user.is_authenticated():
+    if request.user.is_authenticated:
         context["login"] = "yes"
     else:
         context["login"] = "no"
 
     return render(request, 'hydroshare_resource_creator/login_callback.html', context)
 def login_test(request):
-    if request.user.is_authenticated():
+    if request.user.is_authenticated:
         login_status ="True"
     else:
         login_status ="False"

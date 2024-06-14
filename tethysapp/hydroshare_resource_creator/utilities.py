@@ -216,7 +216,6 @@ def search_wml(unique_code, ns, tag_names, default_value=None, attr=None, get_tr
 
 
 def create_ts_resource(res_data):
-
     refts_data = create_refts_resource(res_data)
     refts_path = refts_data["res_filepath"]
 
@@ -261,14 +260,8 @@ def create_ts_resource(res_data):
             elif return_type == "WaterML 1.0":
                 wml_version = "1.0"
                 ns = "{http://www.cuahsi.org/waterML/1.0/}"
-
-            response = requests.post(
-                url=url,
-                headers={
-                    "SOAPAction": "http://www.cuahsi.org/his/" + wml_version + "/ws/GetValuesObject",
-                    "Content-Type": "text/xml; charset=utf-8"
-                },
-                data = '<soap-env:Envelope xmlns:soap-env="http://schemas.xmlsoap.org/soap/envelope/">' + \
+                
+            test_data = '<soap-env:Envelope xmlns:soap-env="http://schemas.xmlsoap.org/soap/envelope/">' + \
                       '<soap-env:Body>' + \
                         '<ns0:GetValuesObject xmlns:ns0="http://www.cuahsi.org/his/' + wml_version + '/ws/">' + \
                           '<ns0:location>' + site_code + '</ns0:location>' + \
@@ -279,11 +272,53 @@ def create_ts_resource(res_data):
                         '</ns0:GetValuesObject>' + \
                       '</soap-env:Body>' + \
                     '</soap-env:Envelope>'
-            )
+            
+            # response = requests.post(
+            #     url=url,
+            #     headers={
+            #         "SOAPAction": "http://www.cuahsi.org/his/" + wml_version + "/ws/GetValuesObject",
+            #         "Content-Type": "text/xml; charset=utf-8"
+            #     },
+            #     data = '<soap:Envelope xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:soap="http://schemas.xmlsoap.org/soap/envelope/">' + \
+            #           '<soap-env:Body>' + \
+            #             '<GetValuesObject xmlns="http://www.cuahsi.org/his/' + wml_version + '/ws/">' + \
+            #               '<location>' + site_code + '</location>' + \
+            #               '<variable>' + variable_code + '</variable>' + \
+            #               '<startDate>' + start_date + '</startDate>' + \
+            #               '<endDate>' + end_date + '</endDate>' + \
+            #               '<authToken>' + autho_token + '</authToken>' + \
+            #             '</GetValuesObject>' + \
+            #           '</soap:Body>' + \
+            #         '</soap:Envelope>'
+            # )
 
-            values_result = response.content
+            # data = '<soap:Envelope xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:soap="http://schemas.xmlsoap.org/soap/envelope/">' + \
+            #           '<soap-env:Body>' + \
+            #             '<GetValuesObject xmlns="http://www.cuahsi.org/his/' + wml_version + '/ws/">' + \
+            #               '<location>' + site_code + '</location>' + \
+            #               '<variable>' + variable_code + '</variable>' + \
+            #               '<startDate>' + start_date + '</startDate>' + \
+            #               '<endDate>' + end_date + '</endDate>' + \
+            #               '<authToken>' + autho_token + '</authToken>' + \
+            #             '</GetValuesObject>' + \
+            #           '</soap:Body>' + \
+            #         '</soap:Envelope>'
+            
+            # values_result = response.content    
 
-        except:
+            # from suds.client import Client
+            # client = Client(url)
+            # values_result = client.service.GetValues(site_code, variable_code, start_date, end_date, autho_token)
+            # print(values_result)
+            from zeep import Client
+            client = Client(url)
+            values_result = client.service.GetValues(site_code, variable_code, start_date, end_date, autho_token)
+
+            
+
+        except Exception as e:
+            print(values_result)
+            print(f"Error: {str(e)}")
             print("FAILED TO DOWNLOAD WML")
             sql_connect.rollback()
             continue
@@ -301,7 +336,7 @@ def create_ts_resource(res_data):
             if len(list(list(wml_tree.iter(ns + "values"))[0].iter(ns + "value"))) == 0:
                 print("No timeseries data found")
                 continue
-        except:
+        except Exception as e:
             print("Unable to validate WML")
             continue
         
@@ -693,6 +728,9 @@ def create_ts_resource(res_data):
 
         result_data_list = list(itertools.product(method_data_list, processing_level_data_list))
         for result_data in result_data_list:
+            import pdb
+            pdb.set_trace()
+            print(result_data)
             result = (
                 str(uuid.uuid4()),
                 result_data[0]["feature_action_id"],
@@ -707,7 +745,6 @@ def create_ts_resource(res_data):
                 result_data[0]["value_count"],
             )
             curs.execute("""INSERT INTO Results (
-                            ResultID, 
                             ResultUUID, 
                             FeatureActionID, 
                             ResultTypeCV,
@@ -719,8 +756,9 @@ def create_ts_resource(res_data):
                             StatusCV, 
                             SampledMediumCV, 
                             ValueCount
-                        ) VALUES (NULL, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)""", result)
+                        ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)""", result)
             result_id = curs.lastrowid
+            print(result_id)
             timeseries_result = (
                 result_id,
                 "Unknown",
@@ -730,7 +768,7 @@ def create_ts_resource(res_data):
                             AggregationStatisticCV
                         ) VALUES (?, ?)""", timeseries_result)
             timeseries_result_values = tuple([(
-                result_id,
+                result_id + index,  # Increment result_id by index
                 i[0],
                 i[1],
                 i[2] if i[2] else "+00:00",
@@ -738,15 +776,14 @@ def create_ts_resource(res_data):
                 "unknown",
                 "unknown",
                 "unknown",
-            ) for i in list(map(list, zip(*[
+            ) for index, i in enumerate(list(map(list, zip(*[
                 search_wml(wml_tree, ns, ["value"], mult=True),
                 search_wml(wml_tree, ns, ["value"], attr="dateTime", mult=True),
                 search_wml(wml_tree, ns, ["value"], default_value="+00:00", attr="timeOffset", mult=True),
                 search_wml(wml_tree, ns, ["value"], default_value="nc", attr="censorCode", mult=True)
-            ])))])
-            curs.execute("BEGIN TRANSACTION;")
+            ]))))])
+    
             curs.executemany("""INSERT INTO TimeSeriesResultValues ( 
-                                ValueID, 
                                 ResultID, 
                                 DataValue, 
                                 ValueDateTime,
@@ -755,7 +792,8 @@ def create_ts_resource(res_data):
                                 QualityCodeCV, 
                                 TimeAggregationInterval,
                                 TimeAggregationIntervalUnitsID
-                            ) VALUES (NULL, ?, ?, ?, ?, ?, ?, ?, ?)""", timeseries_result_values)
+                            ) VALUES (?, ?, ?, ?, ?, ?, ?, ?)""", timeseries_result_values)
+            
             dataset_result = (
                 1,
                 result_id,

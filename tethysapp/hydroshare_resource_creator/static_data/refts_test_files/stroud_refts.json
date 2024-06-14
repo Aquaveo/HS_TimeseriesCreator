@@ -19,7 +19,7 @@
                     "refType": "WOF",
                     "returnType": "WaterML 1.1",
                     "serviceType": "SOAP",
-                    "url": "http://hydroportal.cuahsi.org/czo_udel/cuahsi_1_1.asmx?WSDL"
+                    "url": "https://hydroportal.cuahsi.org/czo_udel/cuahsi_1_1.asmx?WSDL"
                 },
                 "sampleMedium": "Surface Water",
                 "site": {

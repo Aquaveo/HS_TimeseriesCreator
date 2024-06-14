@@ -1,5 +1,6 @@
 .gitignore
 .gitignore~
+install.yml
 setup.py
 .idea/.name
 .idea/misc.xml

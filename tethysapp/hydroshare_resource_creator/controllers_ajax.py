@@ -58,7 +58,7 @@ def login_test(request):
             return_obj['success'] = "True"
         elif "hs-apps-dev.hydroshare.org" in str(data_url) and "beta" in str(hs_version):
             return_obj['success'] = "True"
-        elif "127.0.0.1:8000" in str(data_url) and "beta" in str(hs_version):
+        elif "127.0.0.1:8000" in str(data_url) or "localhost:8000" in str(data_url): # and "beta" in str(hs_version):
             return_obj['success'] = "True"
         else:
             return_obj['success'] = "False"
