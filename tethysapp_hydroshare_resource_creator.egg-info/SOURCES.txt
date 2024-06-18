@@ -8,7 +8,6 @@ setup.py
 .idea/tethysapp-hydroshare_resource_creator.iml
 .idea/vcs.xml
 .idea/workspace.xml
-tethysapp/__init__.py
 tethysapp/hydroshare_resource_creator/__init__.py
 tethysapp/hydroshare_resource_creator/app.py
 tethysapp/hydroshare_resource_creator/controllers.py

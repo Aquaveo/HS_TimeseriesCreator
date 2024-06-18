@@ -728,8 +728,6 @@ def create_ts_resource(res_data):
 
         result_data_list = list(itertools.product(method_data_list, processing_level_data_list))
         for result_data in result_data_list:
-            import pdb
-            pdb.set_trace()
             print(result_data)
             result = (
                 str(uuid.uuid4()),
