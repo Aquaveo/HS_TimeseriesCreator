@@ -13,8 +13,9 @@ from .utilities import get_user_workspace, create_ts_resource, create_refts_reso
 
 logger = getLogger('django')
 
-@csrf_exempt
+
 @controller(name='login_test')
+@csrf_exempt
 def login_test(request):
     """
     Ajax controller for login_test. Tests user login.
@@ -68,8 +69,9 @@ def login_test(request):
     return JsonResponse(return_obj)
 
 
-@csrf_exempt
+
 @controller(name='create_resource', url='hydroshare-resource-creator/create-resource')
+@csrf_exempt
 def ajax_create_resource(request):
     """
     Ajax controller for create_layer.

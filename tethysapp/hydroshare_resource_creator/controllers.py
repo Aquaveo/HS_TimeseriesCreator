@@ -11,8 +11,9 @@ from .utilities import get_user_workspace, process_form_data
 
 import os
 
-@csrf_exempt
+
 @controller(name='home')
+@csrf_exempt
 def home(request):
     """
     Controller for app home page.
@@ -84,10 +85,9 @@ def home(request):
 
     return render_obj
 
-
-@csrf_exempt
-@never_cache
 @controller(name='login_callback')
+@never_cache
+@csrf_exempt
 def login_callback(request):
     """
     Controller for login_callback. Checks if the user is logged in.
