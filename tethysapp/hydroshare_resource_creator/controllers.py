@@ -26,7 +26,7 @@ def home(request):
     """
 
     # FORM DATA FOR LOCAL TESTING
-    test_file_name = 'stroud_refts.json'  # Comment out before uploading to GitHub
+    # test_file_name = 'stroud_refts.json'  # Comment out before uploading to GitHub
 
     try:  # LOCAL TESTING USE ONLY
         local_path = os.path.join(os.path.dirname(__file__), 'static_data', 'refts_test_files')
