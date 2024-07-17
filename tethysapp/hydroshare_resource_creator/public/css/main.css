@@ -157,6 +157,10 @@ tr.shown td.details-control {
     z-index:101;
 }
 
+#modal-error-title {
+    margin-left: 60px;
+}
+
 .dataTables_filter, .dataTables_info, .dataTables_length, .dataTables_paginate {display: none;}
 
 /*
