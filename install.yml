@@ -16,6 +16,7 @@ requirements:
     - xmltodict
     - pandas 
     - lxml
+    - zeep
 
   pip:
 
