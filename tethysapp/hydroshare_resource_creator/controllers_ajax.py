@@ -13,7 +13,6 @@ from .utilities import get_user_workspace, create_ts_resource, create_refts_reso
 
 logger = getLogger('django')
 
-
 @controller(name='login_test')
 @csrf_exempt
 def login_test(request):
@@ -64,13 +63,11 @@ def login_test(request):
         elif "tethys4.eastus.cloudapp.azure.com" in str(data_url):
             return_obj['success'] = "True"
         else:
-            return_obj["test"] = "fail"
             return_obj['success'] = "False"
     else:
         
         return_obj['success'] = "False"
 
-    return_obj["data_url"] = str(data_url)
     return JsonResponse(return_obj)
 
 
