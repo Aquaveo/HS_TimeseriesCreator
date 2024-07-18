@@ -95,7 +95,7 @@ def ajax_create_resource(request):
     #   VERIFIES REQUEST   #
     # -------------------- #
 
-    if not (request.is_ajax() and request.method == "POST"):
+    if not (request.headers.get("x-requested-with") == "XMLHttpRequest" and request.method == "POST"):
         return_obj["success"] = False
         return_obj["message"] = "Unable to communicate with server."
         return_obj["results"] = {}
