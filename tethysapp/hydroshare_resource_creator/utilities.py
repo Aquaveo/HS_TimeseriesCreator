@@ -314,8 +314,6 @@ def create_ts_resource(res_data):
             client = Client(url)
             values_result = client.service.GetValues(site_code, variable_code, start_date, end_date, autho_token)
 
-            
-
         except Exception as e:
             print(values_result)
             print(f"Error: {str(e)}")

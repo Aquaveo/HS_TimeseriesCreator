@@ -163,6 +163,10 @@ tr.shown td.details-control {
 
 .dataTables_filter, .dataTables_info, .dataTables_length, .dataTables_paginate {display: none;}
 
+#modal-resource-dialog-title {
+    margin-right:100px;
+}
+
 /*
     -webkit-transform: translateX(0);
     -moz-transform: translateX(0);
