@@ -30,7 +30,7 @@ def login_test(request):
     return_obj = {
         'success': "False",
         'message': None,
-        'results': {}
+        'results': {},
     }
 
     if request.user.is_authenticated:
@@ -64,10 +64,13 @@ def login_test(request):
         elif "tethys4.eastus.cloudapp.azure.com" in str(data_url):
             return_obj['success'] = "True"
         else:
+            return_obj["test"] = "fail"
             return_obj['success'] = "False"
     else:
+        
         return_obj['success'] = "False"
 
+    return_obj["data_url"] = str(data_url)
     return JsonResponse(return_obj)
 
 
