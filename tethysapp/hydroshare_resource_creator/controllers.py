@@ -25,7 +25,7 @@ def home(request):
     """
 
     # FORM DATA FOR LOCAL TESTING
-    test_file_name = 'stroud_refts.json'  # Comment out before uploading to GitHub
+    # test_file_name = 'stroud_refts.json'  # Comment out before uploading to GitHub
 
     try:  # LOCAL TESTING USE ONLY
         local_path = os.path.join(os.path.dirname(__file__), 'static_data', 'refts_test_files')
@@ -53,7 +53,10 @@ def home(request):
             form_body = json.loads(response.content)
         else:
             try:
+                print("Entering POST request")
                 form_body = request.POST
+                print("Form body: ", form_body)
+                print("\n\n")
                 if bool(form_body) is False:
                     form_body = "No data"
             except:
