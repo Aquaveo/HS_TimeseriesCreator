@@ -25,15 +25,15 @@ def home(request):
     """
 
     # FORM DATA FOR LOCAL TESTING
-    #test_file_name = 'stroud_refts.json'  # Comment out before uploading to GitHub
-    
+    test_file_name = 'stroud_refts.json'  # Comment out before uploading to GitHub
+
     try:  # LOCAL TESTING USE ONLY
         local_path = os.path.join(os.path.dirname(__file__), 'static_data', 'refts_test_files')
         local_file = os.path.join(local_path, test_file_name)
 
         
         # local_path = r'\wsl.localhost\Ubuntu\home\jakeymac\git\CUAHSI Migration Apps\HS_TimeseriesCreator\tethysapp\hydroshare_resource_creator\static_data\refts_test_files'
-        # local_file = local_path + test_file_name
+        # local_file = local_path + "\" + "test_file_name"
 
         with open(local_file, "r") as test_file:
             form_body = json.load(test_file)
