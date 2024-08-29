@@ -26,7 +26,7 @@ def home(request):
 
     # FORM DATA FOR LOCAL TESTING
     # test_file_name = 'stroud_refts.json'  # Comment out before uploading to GitHub
-
+    print("Running home controller code")
     try:  # LOCAL TESTING USE ONLY
         local_path = os.path.join(os.path.dirname(__file__), 'static_data', 'refts_test_files')
         local_file = os.path.join(local_path, test_file_name)
@@ -39,8 +39,10 @@ def home(request):
             form_body = json.load(test_file)
 
     except:  # PRODUCTION USE ONLY
-       
+        print("Running exception block")
+
         if request.GET:
+            print("Entering GET request")
             res_id = request.GET["res_id"]
             rest_url = "https://beta.hydroshare.org/hsapi/resource/" + res_id + "/files/"
             response = requests.get(rest_url)
