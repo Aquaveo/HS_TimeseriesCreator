@@ -61,13 +61,14 @@ def home(request):
             try:
                 logger.info("Entering POST request")
                 form_body = request.POST
-                print("Form body: ", form_body)
-                print("\n\n")
+                
                 if bool(form_body) is False:
                     form_body = "No data"
             except:
                 form_body = "No data"
 
+            logger.info("Form body: ", form_body)
+            
     body = request.body
     if form_body == "No data":
         context = {"source": body,
