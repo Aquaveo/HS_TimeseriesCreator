@@ -11,10 +11,6 @@ from .utilities import get_user_workspace, process_form_data
 
 import os
 
-import logging
-
-logger = logging.getLogger(__name__)
-
 @controller(name='home')
 @csrf_exempt
 def home(request):
@@ -30,7 +26,7 @@ def home(request):
 
     # FORM DATA FOR LOCAL TESTING
     # test_file_name = 'stroud_refts.json'  # Comment out before uploading to GitHub
-    logger.info("Entering home controller")
+
     try:  # LOCAL TESTING USE ONLY
         local_path = os.path.join(os.path.dirname(__file__), 'static_data', 'refts_test_files')
         local_file = os.path.join(local_path, test_file_name)
@@ -43,10 +39,7 @@ def home(request):
             form_body = json.load(test_file)
 
     except:  # PRODUCTION USE ONLY
-        logger.info("Running exception block")
-
         if request.GET:
-            logger.info("Entering GET request")
             res_id = request.GET["res_id"]
             rest_url = "https://beta.hydroshare.org/hsapi/resource/" + res_id + "/files/"
             response = requests.get(rest_url)
@@ -59,7 +52,6 @@ def home(request):
             form_body = json.loads(response.content)
         else:
             try:
-                logger.info("Entering POST request")
                 form_body = request.POST
                 
                 if bool(form_body) is False:
@@ -67,8 +59,6 @@ def home(request):
             except:
                 form_body = "No data"
 
-            logger.info("Form body: ", form_body)
-            
     body = request.body
     if form_body == "No data":
         context = {"source": body,
